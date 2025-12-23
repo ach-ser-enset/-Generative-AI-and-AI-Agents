@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chatbot Spring AI</title>
+</head>
+<body>
+<h2>Chatbot</h2>
+<form id="chatForm">
+    <input type="text" id="prompt" placeholder="Votre question..." required>
+    <button type="submit">Envoyer à OpenAI</button>
+    <button type="button" onclick="sendOllama()">Envoyer à Ollama</button>
+</form>
+<div id="response"></div>
+<script>
+    document.getElementById('chatForm').onsubmit = async function(e) {
+        e.preventDefault();
+        const prompt = document.getElementById('prompt').value;
+        const res = await fetch('/api/chat/openai', {method:'POST', body:prompt});
+        document.getElementById('response').innerText = await res.text();
+    };
+    async function sendOllama() {
+        const prompt = document.getElementById('prompt').value;
+        const res = await fetch('/api/chat/ollama', {method:'POST', body:prompt});
+        document.getElementById('response').innerText = await res.text();
+    }
+</script>
+</body>
+</html>
